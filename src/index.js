@@ -42,7 +42,7 @@ function loadDisplay(data) {
     const humidity = document.querySelector('div.humidity');
     const wind = document.querySelector('div.wind');
     const date = document.querySelector('div.date');
-    const extra = document.querySelector('div.extra-temps');
+    // const extra = document.querySelector('div.extra-temps');
 
     condition.innerHTML = `<img src=${data.current.condIcon} alt='${data.current.condition}'>${data.current.condition}`
 
@@ -50,10 +50,10 @@ function loadDisplay(data) {
 
     if (unit === 'C') {
         temp.textContent = `${data.current.temp.celsius} ºC (feels ${data.current.tempFeel.celsius} ºC)`;
-        extra.textContent = `Average of ${data.current.avg.celsius} ºC, minimum of ${data.current.min.celsius} ºC, max of ${data.current.max.celsius} ºC`
+        // extra.textContent = `Average of ${data.current.avg.celsius} ºC, minimum of ${data.current.min.celsius} ºC, max of ${data.current.max.celsius} ºC`
     } else {
         temp.textContent = `${data.current.temp.faren} ºF (feels ${data.current.tempFeel.faren} ºF)`
-        extra.textContent = `Average of ${data.current.avg.faren} ºF, minimum of ${data.current.min.faren} ºF, max of ${data.current.max.faren} ºF`
+        // extra.textContent = `Average of ${data.current.avg.faren} ºF, minimum of ${data.current.min.faren} ºF, max of ${data.current.max.faren} ºF`
     }
 
     humidity.textContent = `Humidity: ${data.current.humidity}%`;
@@ -65,19 +65,34 @@ function loadDisplay(data) {
 
 console.clear()
 
-filterData('Fortal').then((d) => {console.log('filtered data:', d); loadDisplay(d)});
+let dataSet;
+
+filterData('Fortaleza').then((d) => {dataSet = d; console.log('filtered data:', dataSet); loadDisplay(dataSet)});
 
 const searchBtn = document.querySelector('button#search');
 const searchInput = document.querySelector('input');
+const unitSwitch = document.querySelector('button#unit-switch')
 
 searchBtn.addEventListener('click', () => {
     if (searchInput.value) {
         filterData(searchInput.value).then((d) => {
-            loadDisplay(d);
+            dataSet = d;
+            loadDisplay(dataSet);
         })
         .catch((error) => {
             alert('Error: Location not found')
         })
     }
+})
+
+unitSwitch.addEventListener('click', () => {
+    if (unit === 'C') {
+        unit = 'F';
+        unitSwitch.textContent = `Switch to ºC`;
+    } else {
+        unit = 'C';
+        unitSwitch.textContent = `Switch to ºF`;
+    }
+    loadDisplay(dataSet);
 })
 
