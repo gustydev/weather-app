@@ -1,4 +1,4 @@
-import { format, parse } from 'date-fns';
+import { format } from 'date-fns';
 
 async function fetchData(city) {
     const data = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=4901752c18324551b2d160311231212&q=${city}&aqi=no&alerts=no`, 
@@ -32,7 +32,7 @@ async function filterData(city) {
 let unit = 'C';
 
 function formatDate(date) {
-    return format(new Date(date), 'iiii H:m')
+    return format(new Date(date), 'iiii H:mm')
 }
 
 function loadDisplay(data) {
@@ -42,9 +42,12 @@ function loadDisplay(data) {
     const humidity = document.querySelector('div.humidity');
     const wind = document.querySelector('div.wind');
     const date = document.querySelector('div.date');
+    const condImg = document.querySelector('img#cond-img')
     // const extra = document.querySelector('div.extra-temps');
 
-    condition.innerHTML = `<img src=${data.current.condIcon} alt='${data.current.condition}'>${data.current.condition}`
+    condition.textContent = `${data.current.condition}`
+    condImg.src = `${data.current.condIcon}` 
+    condImg.alt = `${data.current.condition}`
 
     location.textContent = data.location;
 
@@ -65,9 +68,9 @@ function loadDisplay(data) {
 
 console.clear()
 
-let dataSet;
+let currentData;
 
-filterData('Fortaleza').then((d) => {dataSet = d; console.log('filtered data:', dataSet); loadDisplay(dataSet)});
+filterData('Fortaleza').then((d) => {currentData = d; console.log('filtered data:', currentData); loadDisplay(currentData)});
 
 const searchBtn = document.querySelector('button#search');
 const searchInput = document.querySelector('input');
@@ -76,11 +79,11 @@ const unitSwitch = document.querySelector('button#unit-switch')
 searchBtn.addEventListener('click', () => {
     if (searchInput.value) {
         filterData(searchInput.value).then((d) => {
-            dataSet = d;
-            loadDisplay(dataSet);
+            currentData = d;
+            loadDisplay(currentData);
         })
         .catch((error) => {
-            alert('Error: Location not found')
+            alert('Location not found.')
         })
     }
 })
@@ -93,6 +96,6 @@ unitSwitch.addEventListener('click', () => {
         unit = 'C';
         unitSwitch.textContent = `Switch to ºF`;
     }
-    loadDisplay(dataSet);
+    loadDisplay(currentData);
 })
 
