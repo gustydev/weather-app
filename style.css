@@ -11,7 +11,7 @@ body {
     padding: 24px;
     font-size: 125%;
     color: white;
-    background-image: linear-gradient(rgb(8, 33, 101), rgb(10, 42, 91));
+    background-color: rgb(8, 33, 101);
 }
 
 .title {
@@ -35,7 +35,7 @@ body {
     align-items: center;
     border-radius: 24px;
     min-width: 15%;    
-    background-image: linear-gradient(rgb(8, 33, 101), rgb(16, 33, 90));
+    background-image: linear-gradient(rgb(8, 33, 101), rgb(6, 32, 118));
     min-height: 30vh;
     padding: 36px;
     gap: 2px;
@@ -68,6 +68,7 @@ button#search {
 
 #unit-switch, button#search {
     border: 0;
+    border-radius: 12px;
     background-color: #072C68;
     color: white;
     padding: 8px;
