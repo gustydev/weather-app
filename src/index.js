@@ -99,3 +99,8 @@ unitSwitch.addEventListener('click', () => {
     loadDisplay(currentData);
 })
 
+searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        searchBtn.click();
+    }
+})
