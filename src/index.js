@@ -11,7 +11,6 @@ async function fetchData(city) {
 
 async function filterData(city) {
     const data = await fetchData(city);
-    console.log('raw data:', data)
     return {
         location: `${data.location.name}, ${data.location.country}`,
         current: {
@@ -21,9 +20,6 @@ async function filterData(city) {
             tempFeel: {celsius: data.current.feelslike_c, faren: data.current.feelslike_f},
             date: data.current.last_updated,
             humidity: data.current.humidity,
-            avg: {celsius: data.forecast.forecastday[0].day.avgtemp_c, faren: data.forecast.forecastday[0].day.avgtemp_f},
-            min: {celsius: data.forecast.forecastday[0].day.mintemp_c, faren: data.forecast.forecastday[0].day.mintemp_f},
-            max: {celsius: data.forecast.forecastday[0].day.maxtemp_c, faren: data.forecast.forecastday[0].day.maxtemp_f},
             wind: data.current.wind_kph
         }
     }
@@ -43,7 +39,6 @@ function loadDisplay(data) {
     const wind = document.querySelector('div.wind');
     const date = document.querySelector('div.date');
     const condImg = document.querySelector('img#cond-img')
-    // const extra = document.querySelector('div.extra-temps');
 
     condition.textContent = `${data.current.condition}`
     condImg.src = `${data.current.condIcon}` 
@@ -53,10 +48,8 @@ function loadDisplay(data) {
 
     if (unit === 'C') {
         temp.textContent = `${data.current.temp.celsius} ºC (feels ${data.current.tempFeel.celsius} ºC)`;
-        // extra.textContent = `Average of ${data.current.avg.celsius} ºC, minimum of ${data.current.min.celsius} ºC, max of ${data.current.max.celsius} ºC`
     } else {
         temp.textContent = `${data.current.temp.faren} ºF (feels ${data.current.tempFeel.faren} ºF)`
-        // extra.textContent = `Average of ${data.current.avg.faren} ºF, minimum of ${data.current.min.faren} ºF, max of ${data.current.max.faren} ºF`
     }
 
     humidity.textContent = `Humidity: ${data.current.humidity}%`;
@@ -66,11 +59,9 @@ function loadDisplay(data) {
     date.textContent = `${formatDate(data.current.date)}`
 }
 
-console.clear()
-
 let currentData;
 
-filterData('Fortaleza').then((d) => {currentData = d; console.log('filtered data:', currentData); loadDisplay(currentData)});
+filterData('Fortaleza').then((d) => {currentData = d; loadDisplay(currentData)});
 
 const searchBtn = document.querySelector('button#search');
 const searchInput = document.querySelector('input');
