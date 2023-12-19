@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 
 async function fetchData(city) {
-    const data = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=4901752c18324551b2d160311231212&q=${city}&aqi=no&alerts=no`, 
+    const data = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=4901752c18324551b2d160311231212&q=${city}&aqi=no&alerts=no`, 
     {
         mode: 'cors'
     });
